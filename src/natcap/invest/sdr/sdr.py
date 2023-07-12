@@ -138,6 +138,16 @@ MODEL_SPEC = {
                 "watershed. Pixels with 1 are drainages and are treated like "
                 "streams. Pixels with 0 are not drainages."),
             "name": gettext("drainages")
+        },
+        "max_pixel_fill_count": {
+            "type": "number",
+            "units": u.none,
+            "about": gettext(
+                "maximum number of pixels to fill a pit "
+                "before leaving as a depression. Useful if there are natural "
+                "large depressions. Value of -1 fills the raster with no search "
+                "limit."),
+            "name": gettext("maximum pixel fill count"),
         }
     },
     "outputs": {
@@ -587,7 +597,8 @@ def execute(args):
         func=pygeoprocessing.routing.fill_pits,
         args=(
             (f_reg['aligned_dem_path'], 1),
-            f_reg['pit_filled_dem_path']),
+            f_reg['pit_filled_dem_path'], None,
+            args['max_pixel_fill_count']),
         target_path_list=[f_reg['pit_filled_dem_path']],
         dependent_task_list=[align_task],
         task_name='fill pits')
