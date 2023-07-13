@@ -294,7 +294,8 @@ def execute(args):
     This model exposes the pygeoprocessing D8 and Multiple Flow Direction
     routing functionality as an InVEST model.
 
-    This tool will always fill pits on the input DEM.
+    To ensure this tool will always fill pits on the input DEM, set the
+    ``args['max_pixel_fill_count']`` parameter to -1.
 
     Args:
         args['workspace_dir'] (string): output directory for intermediate,
@@ -334,6 +335,10 @@ def execute(args):
             the Strahler stream order.
         args['calculate_subwatersheds']: If True, the model will create a
             vector of subwatersheds.
+        args['max_pixel_fill_count']: maximum number of pixels to fill a pit
+            before leaving as a depression. Useful if there are natural
+            large depressions. Value of -1 fills the raster with no search
+            limit.
         args['n_workers'] (int): The ``n_workers`` parameter to pass to
             the task graph.  The default is ``-1`` if not provided.
 
@@ -395,7 +400,8 @@ def execute(args):
         pygeoprocessing.routing.fill_pits,
         args=(dem_raster_path_band,
               dem_filled_pits_path,
-              args['workspace_dir']),
+              args['workspace_dir'],
+              args['max_pixel_fill_count']),
         task_name='fill_pits',
         target_path_list=[dem_filled_pits_path])
 

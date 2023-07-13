@@ -501,6 +501,10 @@ def execute(args):
         args['l_max'] (number): the maximum allowed value of the slope length
             parameter (L) in the LS factor. If the calculated value of L
             exceeds 'l_max' it will be clamped to this value.
+        args['max_pixel_fill_count']: maximum number of pixels to fill a pit
+            before leaving as a depression. Useful if there are natural
+            large depressions. Value of -1 fills the raster with no search
+            limit.
         args['n_workers'] (int): if present, indicates how many worker
             processes should be used in parallel processing. -1 indicates
             single process mode, 0 is single process but non-blocking mode,
